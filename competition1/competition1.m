@@ -6,17 +6,17 @@ P = -1.202*(s-1)/(s*(s+9)*(s^2+12*s+56.25));
 % step(P,2);
 % title('Open-loop step response');
 
-%% Design the PID controller  %J = 27.5137
-Kp = 220.6;
-Ki = 2.3;
-Kd = 78;
-C = pid(Kp,Ki,Kd);
-% C = -(s*(s+9)*(s^2+12*s+56.25))/(1.202*(s-1)*(s^2+100*s+10000));
-H = feedback(C*P,1);
+%% Design the PID controller  %J = 0.0557
+Kp = 500;
+Ki = 0;
+Kd = 0;
+C = -(s+9)*(s^2+12*s+56.25)/(s-1);
+C1 = pid(Kp,Ki,Kd);
+H = feedback(C*C1*P,1);
 S = stepinfo(H);
 ts = S.SettlingTime;
 tr = S.RiseTime;
-Mo = S.SettlingMax;
+Mo = S.Overshoot;
 
 %% Simulate the closed-loop step response
 figure; 
